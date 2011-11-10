@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="no-js lte8" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+    <title>Base64 Drag and Drop</title>
+    <style type="text/css" media="screen">
+        body {font:14px sans-serif; margin:0 auto; width:960px;}
+        #drop_zone {border:2px #bbb dashed; padding:25px; text-align:center;
+            -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px;}
+        #drop_zone.highlight {background:#fee;}
+        ol li {clear:both;}
+        dl, dt, dd, img {float:left; margin:0 20px 0 0;}
+        dl, textarea, .thumb {height:75px;}
+        dl {width:300px;}
+        dt {clear:left; width:100px;}
+        .thumb {max-width:200px;}
+        textarea {float:right; width:40%;}
+    </style>
+</head>
+<body>
+    <h1>Base64 Drag and Drop</h1>
+    <p>Drag and drop files in Firefox and Chrome to convert them to base64 strings.</p>
+    <p>If dropping images, right click on the thumbnail for the data URI.</p>
+    <div id="drop_zone">Drop files here</div>
+    <output id="list"></output>
+    <script>
+        (function(){
+            var handleFileSelect = function (event) {
+                event.stopPropagation();
+                event.preventDefault();
+                this.removeAttribute('class');
+
+                // FileList object of File objects
+                var files = event.dataTransfer.files;
+                var output = [];
+                for (var i = 0, f; f = files[i]; i++) {
+                    var reader = new FileReader();
+
+                    // closure to capture file info
+                    reader.onload = (function(file, index) {
+                        return function(e) {
+                            var dataUri = e.target.result,
+                                base64 = dataUri.substr(dataUri.indexOf(',') + 1),
+                                textarea, image;
+                            textarea = ['<textarea onfocus="this.select()">', base64, '</textarea>'].join('');
+                            if (file.type.match('image.*')) {
+                                image = ['<img class="thumb" src="', dataUri,
+                                    '" title="', file.name, '"/>'].join('');
+                            }
+                            document.getElementById(['file_', index + 1].join('')).innerHTML += [image, textarea].join('');
+                        };
+                    })(f, i);
+
+                    // read file as data URI
+                    reader.readAsDataURL(f);
+
+                    var data = ['<li id="file_', i + 1, '"><h2>', f.name, '</h2><dl>',
+                        '<dt>Type</dt><dd>', f.type || 'n/a', '</dd>',
+                        '<dt>Size</dt><dd>', f.size, ' bytes</dd>',
+                        '<dt>Last Modified</dt><dd>', f.lastModifiedDate ? f.lastModifiedDate.toDateString() : 'n/a', '</dd>',
+                        '</dl></li>'].join('');
+
+                    output.push(data);
+                }
+
+                if (files.length) {
+                    document.getElementById('list').innerHTML = '<ol>' + output.join('') + '</ol>';
+                }
+            };
+
+            var handleDragOver = function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.setAttribute('class', 'highlight');
+            }
+
+            var handleDragEnter = function (e) {
+                this.setAttribute('class', 'highlight');
+            }
+
+            var handleDragLeave = function (e) {
+                this.removeAttribute('class');
+            }
+
+            // add event listeners
+            var dropZone = document.getElementById('drop_zone');
+            dropZone.addEventListener('drop', handleFileSelect, false);
+            dropZone.addEventListener('dragover', handleDragOver, false);
+            dropZone.addEventListener('dragenter', handleDragEnter, false);
+            dropZone.addEventListener('dragleave', handleDragLeave, false);
+        })();
+    </script>
+</body>
+</html>
