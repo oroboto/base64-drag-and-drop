@@ -8,12 +8,14 @@
         #drop_zone {border:2px #bbb dashed; padding:25px; text-align:center;
             -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px;}
         #drop_zone.highlight {background:#fee;}
-        ol li {clear:both;}
-        dl, dt, dd, .thumb {float:left; margin:0 20px 0 0;}
-        dl, textarea, .thumb {height:75px;}
+        ol li {margin:0 0 10px;}
+        ol li:after {clear:both; content:""; display:table;} /* clearfix */
+        dl, dt, dd, figure {float:left; margin:0 20px 0 0;}
+        dl, textarea {height:75px;}
         dl {width:300px;}
         dt {clear:left; width:100px;}
-        .thumb {max-width:200px;}
+        figure {max-width:200px;}
+        .thumb {max-height:75px; max-width:200px;}
         textarea {float:right; width:40%;}
     </style>
 </head>
@@ -42,11 +44,14 @@
                         return function(e) {
                             var dataUri = e.target.result,
                                 base64 = dataUri.substr(dataUri.indexOf(',') + 1),
-                                textarea, image;
+                                textarea, image, figcaption;
                             textarea = ['<textarea onfocus="this.select()">', base64, '</textarea>'].join('');
                             if (file.type.match('image.*')) {
-                                image = ['<img class="thumb" src="', dataUri,
-                                    '" title="', file.name, '"/>'].join('');
+                                if (dataUri.length > 32768) {
+                                    figcaption = '<figcaption>In IE8, data URIs cannot be larger than 32,768 characters.</figcaption>';
+                                }
+                                image = ['<figure><img class="thumb" src="', dataUri, '" title="', file.name, '"/>',
+                                    figcaption, '</figure>'].join('');
                             }
                             document.getElementById(['file_', index + 1].join('')).innerHTML += [image, textarea].join('');
                         };
