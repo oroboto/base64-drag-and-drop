@@ -2,10 +2,35 @@
 <!--[if lt IE 9]><html class="no-js oldie" lang="en"><![endif]-->
 <!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
+    <meta charset="utf-8" />
+    <!--
+    Copyright (c) 2011 Oroboto. All rights reserved.
+
+    Permission is hereby granted, free of charge, to any person
+    obtaining a copy of this software and associated documentation
+    files (the "Software"), to deal in the Software without
+    restriction, including without limitation the rights to use,
+    copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following
+    conditions:
+
+    The above copyright notice and this permission notice shall be
+    included in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+    OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+    HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+    WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+    OTHER DEALINGS IN THE SOFTWARE.
+    -->
     <title>Base64 Drag and Drop</title>
     <style type="text/css" media="screen">
         body {font:14px sans-serif; margin:0 auto; width:960px;}
-        #drop_zone {border:2px #bbb dashed; padding:25px; text-align:center;
+        #drop_zone {background:#eee; border:2px #bbb dashed; padding:25px; text-align:center;
             -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px;}
         #drop_zone.highlight {background:#fee;}
         ol li {margin:0 0 10px;}
@@ -25,6 +50,30 @@
     <p>If dropping images, right click on the thumbnail for the data URI.</p>
     <div id="drop_zone">Drop files here</div>
     <output id="list"></output>
+    <h2>Features (or, "What makes this so cool?")</h2>
+    <ul>
+        <li>encodes any file into a base64 string</li>
+        <li>easy drag and drop of files on your computer into the drop zone</li>
+        <li>works offline; files aren't uploaded anywhere, so your sensitive data is safe</li>
+        <li>for Firefox, no server needed, just open index.html from your file manager</li>
+        <li>very portable; entire tool is contained in one file (index.html)</li>
+        <li>previews images as data URIs, for easy copying into CSS</li>
+    </ul>
+    <h2>Requirements</h2>
+    <ul>
+        <li>Mozilla Firefox 3.6+ or Google Chrome 6+ (maybe Opera 11.1+ and IE10+ also?)</li>
+        <li>JavaScript <strong>ENABLED</strong> (that's where the magic happens)</li>
+    </ul>
+    <h2>Usage</h2>
+    <ol>
+        <li>Open index.html in your browser. Firefox doesn't even need it to be on a server (Chrome can only get the file info, but can't read the file to convert to base64, so either copy to your local web server or use the online version).</li>
+        <li>Drag files from your file manager into the drop zone.</li>
+        <li>???</li>
+        <li>Profit!</li>
+    </ol>
+    <h2>License</h2>
+    <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>
+    <p class="copyright">&copy; 2011 Oroboto. All rights reserved.</p>
     <a href="https://github.com/oroboto/base64-drag-and-drop"><img style="position:absolute; top:0; right:0; border:0;" src="https://d3nwyuy0nl342s.cloudfront.net/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" /></a>
     <script>
         (function(){
@@ -60,7 +109,7 @@
                     // read file as data URI
                     reader.readAsDataURL(f);
 
-                    var data = ['<li id="file_', i + 1, '"><h2>', f.name, '</h2><dl>',
+                    var data = ['<li id="file_', i + 1, '"><h3>', f.name, '</h3><dl>',
                         '<dt>Type</dt><dd>', f.type || 'n/a', '</dd>',
                         '<dt>Size</dt><dd>', f.size, ' bytes</dd>',
                         '<dt>Last Modified</dt><dd>', f.lastModifiedDate ? f.lastModifiedDate.toDateString() : 'n/a', '</dd>',
