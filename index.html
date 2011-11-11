@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 9]><html class="no-js lte8" lang="en"><![endif]-->
+<!--[if lt IE 9]><html class="no-js oldie" lang="en"><![endif]-->
 <!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
     <title>Base64 Drag and Drop</title>
@@ -9,7 +9,7 @@
             -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px;}
         #drop_zone.highlight {background:#fee;}
         ol li {clear:both;}
-        dl, dt, dd, img {float:left; margin:0 20px 0 0;}
+        dl, dt, dd, .thumb {float:left; margin:0 20px 0 0;}
         dl, textarea, .thumb {height:75px;}
         dl {width:300px;}
         dt {clear:left; width:100px;}
@@ -23,6 +23,7 @@
     <p>If dropping images, right click on the thumbnail for the data URI.</p>
     <div id="drop_zone">Drop files here</div>
     <output id="list"></output>
+    <a href="https://github.com/oroboto/base64-drag-and-drop"><img style="position:absolute; top:0; right:0; border:0;" src="https://d3nwyuy0nl342s.cloudfront.net/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" /></a>
     <script>
         (function(){
             var handleFileSelect = function (event) {
